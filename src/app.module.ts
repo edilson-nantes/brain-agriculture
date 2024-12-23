@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FarmerModule } from './farmer/farmer.module';
-import { CacheModule } from './cache/cache.module';
 import { FarmModule } from './farm/farm.module';
 
 @Module({
@@ -22,7 +21,6 @@ import { FarmModule } from './farm/farm.module';
       migrationsRun: true
     }),
     FarmerModule,
-    CacheModule,
     FarmModule
   ],
   controllers: [],

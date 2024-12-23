@@ -9,11 +9,11 @@ export class FarmEntity {
     @Column({name: 'name', nullable: false})
     name: string;
 
-    @Column({name: 'city_id', nullable: false}) // ajustar para o retorno do IBGE
-    cityId: number;
+    @Column({name: 'city', nullable: false})
+    city: string;
 
-    @Column({name: 'state_id', nullable: false}) // ajustar para o retorno do IBGE
-    stateId: number;
+    @Column({name: 'state', nullable: false})
+    state: string;
 
     @Column({name: 'total_area', nullable: false})
     totalArea: number;

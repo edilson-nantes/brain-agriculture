@@ -16,7 +16,6 @@ export class FarmService {
 
     async createFarm(farmerId: number, createFarmDto: CreateFarmDto): Promise<FarmEntity> {
         await this.farmerService.getFarmerById(farmerId);
-        // chamar o service de cidade e estado para validar se existe
         
         
         return this.farmRepository.save({

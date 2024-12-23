@@ -15,8 +15,8 @@ export class CreateTableFarm1734989553807 implements MigrationInterface {
             CREATE TABLE IF NOT EXISTS public.farm (
                 id integer NOT NULL DEFAULT nextval('farm_id_seq'::regclass),
                 name VARCHAR(255) NOT NULL,
-                city_id INTEGER NOT NULL,
-                state_id INTEGER NOT NULL,
+                city VARCHAR(100) NOT NULL,
+                state VARCHAR(40) NOT NULL,
                 total_area NUMERIC(10, 2) NOT NULL,
                 arable_area NUMERIC(10, 2) NOT NULL,
                 vegetation_area NUMERIC(10, 2) NOT NULL,

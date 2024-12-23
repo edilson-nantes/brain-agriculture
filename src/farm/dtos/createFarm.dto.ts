@@ -1,14 +1,14 @@
-import { IsInt, IsNumber, IsString } from 'class-validator';
+import { IsNumber, IsString } from 'class-validator';
 
 export class CreateFarmDto {
     @IsString()
     name: string;
 
-    @IsInt()
-    cityId: number;
+    @IsString()
+    city: string;
 
-    @IsInt()
-    stateId: number;
+    @IsString()
+    state: string;
 
     @IsNumber()
     totalArea: number;

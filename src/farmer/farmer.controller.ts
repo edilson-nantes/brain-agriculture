@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, Validation
 import { FarmerService } from './farmer.service';
 import { CreateFarmerDto } from './dtos/createFarmer.dto';
 import { FarmerEntity } from './entities/farmer.entity';
+import { ReturnFarmerDto } from './dtos/returnFarmer.dto';
 
 @Controller('farmer')
 export class FarmerController {
@@ -15,13 +16,15 @@ export class FarmerController {
     };
 
     @Get()
-    async listAllFarmers(): Promise<FarmerEntity[]> {
+    async listAllFarmers(): Promise<ReturnFarmerDto[]> {
         return await this.farmerService.listAllFarmers();
     };
 
     @Get(':id')
-    async getFarmerById(@Param('id') id: number): Promise<FarmerEntity> {
-        return await this.farmerService.getFarmerById(id);
+    async getFarmerById(@Param('id') id: number): Promise<ReturnFarmerDto> {
+        return new ReturnFarmerDto(
+            await this.farmerService.getFarmerById(id)
+        );
     };
 
     @Get('cpf-cnpj/:cpfCnpj')

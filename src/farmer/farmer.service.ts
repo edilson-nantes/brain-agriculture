@@ -27,7 +27,8 @@ export class FarmerService {
         const farmer = await this.farmerRepository.findOne({
             where: {
                 id: id
-            }
+            },
+            relations: ['farms']
         });
         if (!farmer) {
             throw new NotFoundException('Farmer not found');
