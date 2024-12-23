@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { FarmEntity } from "src/farm/entities/farm.entity";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({name: 'farmer'})
 export class FarmerEntity {
@@ -16,5 +17,8 @@ export class FarmerEntity {
 
     @UpdateDateColumn({name: 'updated_at'})
     updatedAt: Date;
+
+    @OneToMany(() => FarmEntity, (farm) => farm.farmer)
+    farms?: FarmEntity[];
 
 }

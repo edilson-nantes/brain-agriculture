@@ -9,10 +9,7 @@ export class CacheService {
         @Inject(CACHE_MANAGER) private cacheManager: Cache
     ){};
     
-    async getCache<T>(
-        key: string,
-        functionRequest: () => Promise<T>,
-    ): Promise<T>{
+    async getCache<T>(key: string,functionRequest: () => Promise<T>,): Promise<T>{
         const allData: T = await this.cacheManager.get(key);
 
         if(allData){

@@ -32,7 +32,7 @@ export class CreateTableFarmer1734910006075 implements MigrationInterface {
         queryRunner.query(`
             DROP TABLE IF EXISTS public.farmer;
             DROP SEQUENCE IF EXISTS public.farmer_id_seq;
-        `)
+        `);
     }
 
 }
