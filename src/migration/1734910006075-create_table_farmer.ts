@@ -30,7 +30,8 @@ export class CreateTableFarmer1734910006075 implements MigrationInterface {
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         queryRunner.query(`
-            drop table public.farmer;
+            DROP TABLE IF EXISTS public.farmer;
+            DROP SEQUENCE IF EXISTS public.farmer_id_seq;
         `)
     }
 

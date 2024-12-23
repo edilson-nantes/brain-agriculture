@@ -2,6 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FarmerModule } from './farmer/farmer.module';
+import { StateModule } from './state/state.module';
+import { CityModule } from './city/city.module';
+import { CacheModule } from './cache/cache.module';
 
 @Module({
   imports: [
@@ -19,7 +22,10 @@ import { FarmerModule } from './farmer/farmer.module';
       migrations: [`${__dirname}/migration/{.ts,*.js}`],
       migrationsRun: true
     }),
-    FarmerModule
+    FarmerModule,
+    StateModule,
+    CityModule,
+    CacheModule
   ],
   controllers: [],
   providers: [],
