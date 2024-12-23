@@ -5,10 +5,10 @@ export class FarmerEntity {
     @PrimaryGeneratedColumn('rowid')
     id: number;
 
-    @Column({name: 'cpf_cnpj'})
-    cpfCpnj: string;
+    @Column({name: 'cpf_cnpj', nullable: false, unique: true})
+    cpfCnpj: string;
 
-    @Column({name: 'name'})
+    @Column({name: 'name', nullable: false})
     name: string;
 
     @CreateDateColumn({name: 'created_at'})
