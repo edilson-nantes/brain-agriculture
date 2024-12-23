@@ -2,9 +2,8 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { FarmerEntity } from './entities/farmer.entity';
 import { Repository } from 'typeorm';
-import validator from 'cpf-cnpj-validator';
 import { CreateFarmerDto } from './dtos/createFarmer.dto';
-const Joi = require('joi').extend(validator);
+import { CpfCnpjValidator } from './validators/cpf-cnpj.validator';
 
 @Injectable()
 export class FarmerService {
@@ -15,16 +14,7 @@ export class FarmerService {
     ) {}
 
     async createFarmer(createFarmer: CreateFarmerDto): Promise<FarmerEntity> {
-        const cpfSchema = Joi.document().cpf();
-        const cnpjSchema = Joi.document().cnpj();
-
-        if (createFarmer.cpfCnpj.length === 14) {
-            cnpjSchema.validate(createFarmer.cpfCnpj);
-        } else if (createFarmer.cpfCnpj.length === 11) {
-            cpfSchema.validate(createFarmer.cpfCnpj);
-        } else {
-            throw new BadRequestException('Invalid CPF/CNPJ');
-        }
+        CpfCnpjValidator.validate(createFarmer.cpfCnpj);
         
         return await this.farmerRepository.save(createFarmer);
     }
