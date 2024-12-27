@@ -41,7 +41,8 @@ export class FarmerService {
         const farmer = await this.farmerRepository.findOne({
             where: {
                 cpfCnpj: cpfCnpj
-            }
+            },
+            relations: ['farms']
         });
 
         if (!farmer) {

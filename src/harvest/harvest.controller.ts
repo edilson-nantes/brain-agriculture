@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, Validation
 import { HarvestService } from './harvest.service';
 import { CreateHarvestDto } from './dtos/createHarvest.dto';
 import { HarvestEntity } from './entities/harvest.entity';
+import { ReturnHarvestDto } from './dtos/returnHarvest.dto';
 
 @Controller('harvest')
 export class HarvestController {
@@ -22,8 +23,10 @@ export class HarvestController {
     }
 
     @Get(':harvestId')
-    async getHarvestById(@Param('harvestId') harvestId: number): Promise<HarvestEntity> {
-        return await this.harvestService.getHarvestById(harvestId);
+    async getHarvestById(@Param('harvestId') harvestId: number): Promise<ReturnHarvestDto> {
+        return new ReturnHarvestDto (
+            await this.harvestService.getHarvestById(harvestId)
+        );
     }
 
     @Get('farm/:farmId')

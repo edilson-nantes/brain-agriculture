@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, Validation
 import { FarmService } from './farm.service';
 import { CreateFarmDto } from './dtos/createFarm.dto';
 import { FarmEntity } from './entities/farm.entity';
+import { ReturnFarmDto } from './dtos/returnFarm.dto';
 
 @Controller('farm')
 export class FarmController {
@@ -13,31 +14,33 @@ export class FarmController {
     @Post('/:farmerId')
     @UsePipes(ValidationPipe)
     async createFarm(@Param('farmerId') farmerId: number, @Body() createFarmDto: CreateFarmDto,): Promise<FarmEntity> {
-        return this.farmService.createFarm(farmerId, createFarmDto);
+        return await this.farmService.createFarm(farmerId, createFarmDto);
     }
 
     @Get()
     async listAllFarms(): Promise<FarmEntity[]> {
-        return this.farmService.listAllFarms();
+        return await this.farmService.listAllFarms();
     }
 
     @Get(':farmId')
-    async getFarmById(@Param('farmId') farmId: number): Promise<FarmEntity> {
-        return this.farmService.getFarmById(farmId);
+    async getFarmById(@Param('farmId') farmId: number): Promise<ReturnFarmDto> {
+        return new ReturnFarmDto (
+            await this.farmService.getFarmById(farmId)
+        );
     }
 
     @Get('farmer/:farmerId')
     async getFarmByFarmerId(@Param('farmerId') farmerId: number): Promise<FarmEntity[]> {
-        return this.farmService.getFarmByFarmerId(farmerId);
+        return await this.farmService.getFarmByFarmerId(farmerId)
     }
 
     @Patch(':farmId')
     async updateFarm(@Param('farmId') farmId: number, @Body() updateFarm: CreateFarmDto): Promise<FarmEntity> {
-        return this.farmService.updateFarm(farmId, updateFarm);
+        return await this.farmService.updateFarm(farmId, updateFarm);
     }
 
     @Delete(':farmId')
     async deleteFarm(@Param('farmId') farmId: number): Promise<void> {
-        return this.farmService.deleteFarm(farmId);
+        return await this.farmService.deleteFarm(farmId);
     }
 }

@@ -28,8 +28,10 @@ export class FarmerController {
     };
 
     @Get('cpf-cnpj/:cpfCnpj')
-    async getFarmerByCpfCnpj(@Param('cpfCnpj') cpfCnpj: string): Promise<FarmerEntity> {
-        return await this.farmerService.getFarmerByCpfCnpj(cpfCnpj);
+    async getFarmerByCpfCnpj(@Param('cpfCnpj') cpfCnpj: string): Promise<ReturnFarmerDto> {
+        return new ReturnFarmerDto (
+            await this.farmerService.getFarmerByCpfCnpj(cpfCnpj)
+        );
     };
 
     @Patch(':id')

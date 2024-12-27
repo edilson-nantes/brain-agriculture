@@ -1,3 +1,4 @@
+import { ReturnHarvestDto } from "src/harvest/dtos/returnHarvest.dto";
 import { FarmEntity } from "../entities/farm.entity";
 
 export class ReturnFarmDto {
@@ -8,6 +9,7 @@ export class ReturnFarmDto {
     totalArea: number;
     arableArea: number;
     vegetationArea: number;
+    harvests?: ReturnHarvestDto[];
 
     constructor(farm: FarmEntity) {
         this.id = farm.id;
@@ -17,5 +19,6 @@ export class ReturnFarmDto {
         this.totalArea = farm.totalArea;
         this.arableArea = farm.arableArea;
         this.vegetationArea = farm.vegetationArea;
+        this.harvests = farm.harvests?.map(harvest => new ReturnHarvestDto(harvest));
     }
 }

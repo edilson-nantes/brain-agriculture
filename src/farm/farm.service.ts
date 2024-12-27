@@ -35,7 +35,7 @@ export class FarmService {
             where: {
                 id: farmId
             },
-            relations: ['farmer']
+            relations: ['harvests']
         });
 
         if (!farm) {
