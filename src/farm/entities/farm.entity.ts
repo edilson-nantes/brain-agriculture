@@ -1,5 +1,6 @@
 import { FarmerEntity } from "src/farmer/entities/farmer.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { HarvestEntity } from "src/harvest/entities/harvest.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({name: 'farm'})
 export class FarmEntity {
@@ -36,4 +37,7 @@ export class FarmEntity {
     @ManyToOne(() => FarmerEntity, (farmer) => farmer.farms)
     @JoinColumn({name: 'farmer_id', referencedColumnName: 'id'})
     farmer?: FarmerEntity;
+
+    @OneToMany(() => HarvestEntity, (harvest) => harvest.farm)
+    harvests?: HarvestEntity[];
 }

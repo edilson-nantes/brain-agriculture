@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FarmerModule } from './farmer/farmer.module';
 import { FarmModule } from './farm/farm.module';
+import { HarvestModule } from './harvest/harvest.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { FarmModule } from './farm/farm.module';
       migrationsRun: true
     }),
     FarmerModule,
-    FarmModule
+    FarmModule,
+    HarvestModule
   ],
   controllers: [],
   providers: [],
