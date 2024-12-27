@@ -9,7 +9,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: ['.env.development.local', '.env.development', '.env'],
+      envFilePath: ['.env.development.local', '.env'],
     }),
     TypeOrmModule.forRoot({
       type: 'postgres',

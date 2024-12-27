@@ -10,7 +10,7 @@ services:
       - .:/usr/app
     restart: always
     env_file:
-      - .env.development
+      - .env
     depends_on:
       - db
 
