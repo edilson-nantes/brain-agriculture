@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { HarvestEntity } from './entities/harvest.entity';
 import { Repository } from 'typeorm';
@@ -8,6 +8,7 @@ import { HarvestAreaValidator } from './validators/harvestArea.validator';
 
 @Injectable()
 export class HarvestService {
+    private readonly logger = new Logger(HarvestService.name);
 
     constructor(
         @InjectRepository(HarvestEntity)
@@ -16,6 +17,8 @@ export class HarvestService {
     ) {}
 
     async createHarvest(farmId: number, createHarvestDto: CreateHarvestDto): Promise<HarvestEntity> {
+        this.logger.log('Creating a new harvest');
+        
         const farm = await this.farmService.getFarmById(farmId);
         
         HarvestAreaValidator.validateHarvestArea(createHarvestDto.cultivatedArea, farm.arableArea);
@@ -27,10 +30,14 @@ export class HarvestService {
     }
 
     async listAllHarvests(): Promise<HarvestEntity[]> {
+        this.logger.log('Listing all harvests');
+        
         return await this.harvestRepository.find();
     }
 
     async getHarvestById(harvestId: number): Promise<HarvestEntity> {
+        this.logger.log(`Fetching harvest with ID: ${harvestId}`);
+        
         const harvest = await this.harvestRepository.findOne({
             where: {
                 id: harvestId
@@ -38,6 +45,7 @@ export class HarvestService {
         });
 
         if (!harvest) {
+            this.logger.warn(`Harvest with ID: ${harvestId} not found`);
             throw new NotFoundException('Harvest not found');
         }
 
@@ -45,6 +53,8 @@ export class HarvestService {
     }
 
     async getHarvestByFarmId(farmId: number): Promise<HarvestEntity[]> {
+        this.logger.log(`Fetching harvests from farm with ID: ${farmId}`);
+        
         const harvests = await this.harvestRepository.find({
             where: {
                 farmId: farmId
@@ -52,6 +62,7 @@ export class HarvestService {
         });
 
         if (!harvests) {
+            this.logger.warn(`Harvests from farm with ID: ${farmId} not found`);
             throw new NotFoundException('Harvests not found');
         }
 
@@ -59,10 +70,13 @@ export class HarvestService {
     }
 
     async updateHarvest(harvestId: number, updateHarvest: CreateHarvestDto): Promise<HarvestEntity> {
+        this.logger.log(`Updating harvest with ID: ${harvestId}`);
+        
         const harvest = await this.getHarvestById(harvestId);
         const farm = await this.farmService.getFarmById(harvest.farmId);
 
         if (!harvest) {
+            this.logger.warn(`Harvest with ID: ${harvestId} not found`);
             throw new NotFoundException('Harvest not found');
         }
 
@@ -75,12 +89,16 @@ export class HarvestService {
     }
 
     async deleteHarvest(harvestId: number): Promise<void> {
+        this.logger.log(`Deleting harvest with ID: ${harvestId}`);
+        
         const harvest = await this.getHarvestById(harvestId);
 
         if (!harvest) {
+            this.logger.warn(`Harvest with ID: ${harvestId} not found`);
             throw new NotFoundException('Harvest not found');
         }
 
         await this.harvestRepository.delete(harvestId);
+        this.logger.log(`Harvest with ID: ${harvestId} deleted`);
     }
 }
