@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateFarmDto } from './dtos/createFarm.dto';
 import { FarmerService } from 'src/farmer/farmer.service';
+import { FarmAreaValidator } from './validators/farmArea.validator';
 
 @Injectable()
 export class FarmService {
@@ -17,6 +18,7 @@ export class FarmService {
     async createFarm(farmerId: number, createFarmDto: CreateFarmDto): Promise<FarmEntity> {
         await this.farmerService.getFarmerById(farmerId);
         
+        FarmAreaValidator.validateFarmArea(createFarmDto.arableArea, createFarmDto.vegetationArea, createFarmDto.totalArea);
         
         return this.farmRepository.save({
             ...createFarmDto,
@@ -67,6 +69,8 @@ export class FarmService {
         if (!farm) {
             throw new NotFoundException('Farm not found');
         }
+
+        FarmAreaValidator.validateFarmArea(updateFarm.arableArea, updateFarm.vegetationArea, updateFarm.totalArea);
 
         return this.farmRepository.save({
             ...farm,
