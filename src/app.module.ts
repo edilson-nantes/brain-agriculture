@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FarmerModule } from './farmer/farmer.module';
 import { FarmModule } from './farm/farm.module';
 import { HarvestModule } from './harvest/harvest.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { HarvestModule } from './harvest/harvest.module';
     }),
     FarmerModule,
     FarmModule,
-    HarvestModule
+    HarvestModule,
+    DashboardModule
   ],
   controllers: [],
   providers: [],

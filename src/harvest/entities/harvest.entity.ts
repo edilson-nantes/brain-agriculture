@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { FarmEntity } from "../../farm/entities/farm.entity";
 
-@Entity({name: 'farm'})
+@Entity({name: 'harvest'})
 export class HarvestEntity {
     @PrimaryGeneratedColumn('rowid')
     id: number;
