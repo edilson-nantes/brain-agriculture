@@ -12,6 +12,6 @@ import { FarmerModule } from 'src/farmer/farmer.module';
   ],
   providers: [FarmService],
   controllers: [FarmController],
-  exports: [TypeOrmModule]
+  exports: [TypeOrmModule, FarmService]
 })
 export class FarmModule {}
