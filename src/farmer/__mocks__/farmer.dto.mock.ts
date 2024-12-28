@@ -28,6 +28,16 @@ export const mockInvalidCpfCnpjDto: CreateFarmerDto = {
   name: 'Invalid Farmer',
 };
 
+export const mockInvalidCpfDto: CreateFarmerDto = {
+  cpfCnpj: '41270865658',
+  name: 'Invalid Farmer',
+};
+
+export const mockInvalidCnpjDto: CreateFarmerDto = {
+  cpfCnpj: '12345678901234',
+  name: 'Invalid Farmer',
+};
+
 export const mockReturnFarmerDto: ReturnFarmerDto = new ReturnFarmerDto(mockFarmer);
 
 export const mockReturnFarmerDtoWithCnpj: ReturnFarmerDto = new ReturnFarmerDto(mockFarmerWithCnpj);

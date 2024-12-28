@@ -6,7 +6,8 @@ import { Repository } from 'typeorm';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { FarmerService } from '../../farmer/farmer.service';
 import { mockFarm, mockFarm2 } from '../__mocks__/farm.mock';
-import { mockCreateFarmDto, mockUpdateFarmDto, mockInvalidFarmDto } from '../__mocks__/farm.dto.mock';
+import { mockCreateFarmDto, mockUpdateFarmDto, mockInvalidFarmDto, mockNegativeFarmDto } from '../__mocks__/farm.dto.mock';
+
 
 const mockFarmRepository = () => ({
   save: jest.fn(),
@@ -49,7 +50,7 @@ describe('FarmService', () => {
   });
 
   describe('createFarm', () => {
-    it('should create a new farm with valid areas', async () => {
+    it('should create a new farm', async () => {
       jest.spyOn(farmerService, 'getFarmerById').mockResolvedValue(undefined);
       jest.spyOn(farmRepository, 'save').mockResolvedValue(mockFarm);
 
@@ -62,16 +63,16 @@ describe('FarmService', () => {
       });
     });
 
+    it('should throw a BadRequestException for negative area', async () => {
+      jest.spyOn(farmerService, 'getFarmerById').mockResolvedValue(undefined);
+
+      await expect(service.createFarm(1, mockNegativeFarmDto)).rejects.toThrow(BadRequestException);
+    });
+
     it('should throw a BadRequestException for invalid farm area', async () => {
       jest.spyOn(farmerService, 'getFarmerById').mockResolvedValue(undefined);
 
       await expect(service.createFarm(1, mockInvalidFarmDto)).rejects.toThrow(BadRequestException);
-    });
-
-    it('should throw a NotFoundException if farmer is not found', async () => {
-      jest.spyOn(farmerService, 'getFarmerById').mockRejectedValue(new NotFoundException());
-
-      await expect(service.createFarm(1, mockCreateFarmDto)).rejects.toThrow(NotFoundException);
     });
   });
 
@@ -101,8 +102,24 @@ describe('FarmService', () => {
     });
   });
 
+  describe('getFarmByFarmerId', () => {
+    it('should return an array of farms by farmer ID', async () => {
+      jest.spyOn(farmRepository, 'find').mockResolvedValue([mockFarm, mockFarm2]);
+
+      const result = await service.getFarmByFarmerId(1);
+      expect(result).toEqual([mockFarm, mockFarm2]);
+      expect(farmRepository.find).toHaveBeenCalledWith({ where: { farmerId: 1 } });
+    });
+
+    it('should throw a NotFoundException if farms are not found', async () => {
+      jest.spyOn(farmRepository, 'find').mockResolvedValue(null);
+
+      await expect(service.getFarmByFarmerId(3)).rejects.toThrow(NotFoundException);
+    });
+  });
+
   describe('updateFarm', () => {
-    it('should update a farm with valid areas', async () => {
+    it('should update a farm', async () => {
       jest.spyOn(farmRepository, 'findOne').mockResolvedValue(mockFarm);
       jest.spyOn(farmRepository, 'save').mockResolvedValue({ ...mockFarm, ...mockUpdateFarmDto });
 
@@ -123,6 +140,14 @@ describe('FarmService', () => {
 
       await expect(service.updateFarm(1, mockInvalidFarmDto)).rejects.toThrow(BadRequestException);
     });
+
+    it('should log a warning and throw a NotFoundException if farm is not found', async () => {
+      jest.spyOn(farmRepository, 'findOne').mockResolvedValue(null);
+      const loggerSpy = jest.spyOn(service['logger'], 'warn');
+
+      await expect(service.updateFarm(1, mockUpdateFarmDto)).rejects.toThrow(NotFoundException);
+      expect(loggerSpy).toHaveBeenCalledWith('Farm with ID: 1 not found');
+    });
   });
 
   describe('deleteFarm', () => {
@@ -138,6 +163,14 @@ describe('FarmService', () => {
       jest.spyOn(farmRepository, 'findOne').mockResolvedValue(null);
 
       await expect(service.deleteFarm(1)).rejects.toThrow(NotFoundException);
+    });
+
+    it('should log a warning and throw a NotFoundException if farm is not found', async () => {
+      jest.spyOn(farmRepository, 'findOne').mockResolvedValue(null);
+      const loggerSpy = jest.spyOn(service['logger'], 'warn');
+
+      await expect(service.deleteFarm(1)).rejects.toThrow(NotFoundException);
+      expect(loggerSpy).toHaveBeenCalledWith('Farm with ID: 1 not found');
     });
   });
 });

@@ -5,7 +5,7 @@ import { FarmerEntity } from '../entities/farmer.entity';
 import { Repository } from 'typeorm';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { mockFarmer, mockFarmerWithCnpj } from '../__mocks__/farmer.mock';
-import { mockCreateFarmerDto, mockCreateFarmerDtoWithCnpj, mockUpdateFarmerDto, mockUpdateFarmerDtoWithCnpj, mockInvalidCpfCnpjDto } from '../__mocks__/farmer.dto.mock';
+import { mockCreateFarmerDto, mockCreateFarmerDtoWithCnpj, mockUpdateFarmerDto, mockUpdateFarmerDtoWithCnpj, mockInvalidCpfCnpjDto, mockInvalidCpfDto, mockInvalidCnpjDto } from '../__mocks__/farmer.dto.mock';
 
 const mockFarmerRepository = () => ({
   save: jest.fn(),
@@ -52,9 +52,18 @@ describe('FarmerService', () => {
       expect(result).toEqual(mockFarmerWithCnpj);
     });
 
+    it('should throw a BadRequestException for invalid CPF', async () => {
+      await expect(service.createFarmer(mockInvalidCpfDto)).rejects.toThrow(BadRequestException);
+    });
+
+    it('should throw a BadRequestException for invalid CNPJ', async () => {
+      await expect(service.createFarmer(mockInvalidCnpjDto)).rejects.toThrow(BadRequestException);
+    });
+
     it('should throw a BadRequestException for invalid CPF/CNPJ', async () => {
       await expect(service.createFarmer(mockInvalidCpfCnpjDto)).rejects.toThrow(BadRequestException);
     });
+
   });
 
   describe('listAllFarmers', () => {

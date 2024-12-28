@@ -26,3 +26,12 @@ export const mockInvalidFarmDto: CreateFarmDto = {
   vegetationArea: 60,
   totalArea: 150, // Invalid because arableArea + vegetationArea > totalArea
 };
+
+export const mockNegativeFarmDto: CreateFarmDto = {
+  name: 'Farm 1 Updated',
+  city: '',
+  state: '',
+  arableArea: -120,
+  vegetationArea: 60,
+  totalArea: 180,
+};

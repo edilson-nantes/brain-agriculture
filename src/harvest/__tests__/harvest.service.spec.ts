@@ -6,10 +6,8 @@ import { Repository } from 'typeorm';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 import { FarmService } from '../../farm/farm.service';
 import { mockHarvest, mockHarvest2 } from '../__mocks__/harvest.mock';
-import { mockCreateHarvestDto, mockUpdateHarvestDto, mockInvalidHarvestDto } from '../__mocks__/harvest.dto.mock';
-import { FarmEntity } from '../../farm/entities/farm.entity';
+import { mockCreateHarvestDto, mockUpdateHarvestDto, mockInvalidHarvestDto, mockNegativeHarvestDto } from '../__mocks__/harvest.dto.mock';
 import { mockFarm } from '../../farm/__mocks__/farm.mock';
-import { HarvestAreaValidator } from '../validators/harvestArea.validator';
 
 const mockHarvestRepository = () => ({
   save: jest.fn(),
@@ -65,6 +63,12 @@ describe('HarvestService', () => {
       });
     });
 
+    it('should throw a BadRequestException for a negative harvest area', async () => {
+      jest.spyOn(farmService, 'getFarmById').mockResolvedValue(mockFarm);
+
+      await expect(service.createHarvest(1, mockNegativeHarvestDto)).rejects.toThrow(BadRequestException);
+    });
+
     it('should throw a BadRequestException for invalid harvest area', async () => {
       jest.spyOn(farmService, 'getFarmById').mockResolvedValue(mockFarm);
 
@@ -101,6 +105,22 @@ describe('HarvestService', () => {
       jest.spyOn(harvestRepository, 'findOne').mockResolvedValue(null);
 
       await expect(service.getHarvestById(1)).rejects.toThrow(NotFoundException);
+    });
+  });
+
+  describe('getHarvestByFarmId', () => {
+    it('should return an array of harvests by farm ID', async () => {
+      jest.spyOn(harvestRepository, 'find').mockResolvedValue([mockHarvest, mockHarvest2]);
+
+      const result = await service.getHarvestByFarmId(1);
+      expect(result).toEqual([mockHarvest, mockHarvest2]);
+      expect(harvestRepository.find).toHaveBeenCalledWith({ where: { farmId: 1 } });
+    });
+
+    it('should throw a NotFoundException if harvests are not found', async () => {
+      jest.spyOn(harvestRepository, 'find').mockResolvedValue(null);
+
+      await expect(service.getHarvestByFarmId(3)).rejects.toThrow(NotFoundException);
     });
   });
 

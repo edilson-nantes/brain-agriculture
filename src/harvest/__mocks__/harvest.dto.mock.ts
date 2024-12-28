@@ -17,3 +17,9 @@ export const mockInvalidHarvestDto: CreateHarvestDto = {
   year: 2024,
   cultivatedArea: 200, // Invalid because it exceeds the farm's arable area
 };
+
+export const mockNegativeHarvestDto: CreateHarvestDto = {
+  name: 'Harvest 1 Updated',
+  year: 2024,
+  cultivatedArea: -60,
+};
