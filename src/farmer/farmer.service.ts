@@ -74,6 +74,8 @@ export class FarmerService {
             throw new NotFoundException('Farmer not found');
         }
 
+        farmer.cpfCnpj ? CpfCnpjValidator.validate(updateFarmer.cpfCnpj) : null;
+
         return await this.farmerRepository.save({
             ...farmer,
             ...updateFarmer

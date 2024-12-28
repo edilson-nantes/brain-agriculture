@@ -1,4 +1,4 @@
-import { FarmEntity } from "src/farm/entities/farm.entity";
+import { FarmEntity } from "../../farm/entities/farm.entity";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({name: 'farmer'})

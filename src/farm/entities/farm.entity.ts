@@ -1,5 +1,5 @@
-import { FarmerEntity } from "src/farmer/entities/farmer.entity";
-import { HarvestEntity } from "src/harvest/entities/harvest.entity";
+import { FarmerEntity } from "../../farmer/entities/farmer.entity";
+import { HarvestEntity } from "../../harvest/entities/harvest.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity({name: 'farm'})

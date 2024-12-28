@@ -3,7 +3,7 @@ import { FarmService } from './farm.service';
 import { FarmController } from './farm.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FarmEntity } from './entities/farm.entity';
-import { FarmerModule } from 'src/farmer/farmer.module';
+import { FarmerModule } from '../farmer/farmer.module';
 
 @Module({
   imports: [

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { HarvestEntity } from './entities/harvest.entity';
 import { Repository } from 'typeorm';
 import { CreateHarvestDto } from './dtos/createHarvest.dto';
-import { FarmService } from 'src/farm/farm.service';
+import { FarmService } from '../farm/farm.service';
 import { HarvestAreaValidator } from './validators/harvestArea.validator';
 
 @Injectable()

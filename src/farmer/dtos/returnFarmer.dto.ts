@@ -1,5 +1,5 @@
 import { FarmerEntity } from '../entities/farmer.entity';
-import { ReturnFarmDto } from 'src/farm/dtos/returnFarm.dto';
+import { ReturnFarmDto } from '../../farm/dtos/returnFarm.dto';
 
 export class ReturnFarmerDto {
     id: number;

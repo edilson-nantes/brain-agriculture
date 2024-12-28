@@ -1,4 +1,4 @@
-import { ReturnHarvestDto } from "src/harvest/dtos/returnHarvest.dto";
+import { ReturnHarvestDto } from "../../harvest/dtos/returnHarvest.dto";
 import { FarmEntity } from "../entities/farm.entity";
 
 export class ReturnFarmDto {

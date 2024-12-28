@@ -3,7 +3,7 @@ import { FarmEntity } from './entities/farm.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateFarmDto } from './dtos/createFarm.dto';
-import { FarmerService } from 'src/farmer/farmer.service';
+import { FarmerService } from '../farmer/farmer.service';
 import { FarmAreaValidator } from './validators/farmArea.validator';
 
 @Injectable()

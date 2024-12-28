@@ -3,7 +3,7 @@ import { HarvestService } from './harvest.service';
 import { HarvestController } from './harvest.controller';
 import { HarvestEntity } from './entities/harvest.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FarmModule } from 'src/farm/farm.module';
+import { FarmModule } from '../farm/farm.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([HarvestEntity]),
