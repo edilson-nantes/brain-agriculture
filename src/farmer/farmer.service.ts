@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FarmerEntity } from './entities/farmer.entity';
 import { Repository } from 'typeorm';
@@ -18,6 +18,21 @@ export class FarmerService {
         this.logger.log('Creating a new farmer');
 
         CpfCnpjValidator.validate(createFarmer.cpfCnpj);
+
+        const farmer = await this.farmerRepository.findOne({
+            where: {
+                cpfCnpj: createFarmer.cpfCnpj
+            }
+        });
+
+        if (farmer) {
+            this.logger.warn(`Farmer with CPF/CNPJ: ${createFarmer.cpfCnpj} already exists`);
+            throw new BadRequestException({
+                error: 'Farmer already exists',
+                message: 'Farmer already exists',
+                statusCode: 409
+            });
+        }
         return await this.farmerRepository.save(createFarmer);
     }
 

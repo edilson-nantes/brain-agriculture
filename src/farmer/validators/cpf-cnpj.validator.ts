@@ -13,17 +13,29 @@ export class CpfCnpjValidator {
             const { error } = cnpjSchema.validate(cpfCnpj);
             if (error) {
                 this.logger.error('Invalid CNPJ');
-                throw new BadRequestException('Invalid CNPJ');
+                throw new BadRequestException({
+                    error: 'Invalid CNPJ',
+                    message: 'Invalid CNPJ',
+                    statusCode: 422,
+                });
             }
         } else if (cpfCnpj.length === 11) {
             const { error } = cpfSchema.validate(cpfCnpj);
             if (error) {
                 this.logger.error('Invalid CPF');
-                throw new BadRequestException('Invalid CPF');
+                throw new BadRequestException({
+                    error: 'Invalid CPF',
+                    message: 'Invalid CPF',
+                    statusCode: 422,
+                });
             }
         } else {
             this.logger.error('Invalid CPF/CNPJ length');
-            throw new BadRequestException('Invalid CPF/CNPJ length');
+            throw new BadRequestException({
+                error: 'Invalid CPF/CNPJ length',
+                message: 'Invalid CPF/CNPJ length',
+                statusCode: 422,
+            });
         }
     }
 }
